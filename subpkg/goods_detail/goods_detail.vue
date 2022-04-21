@@ -34,9 +34,37 @@
 </template>
 
 <script>
+  import {mapState,mapMutations,mapGetters} from 'vuex'
+  
 	export default {
+    computed:{
+      ...mapState('m_cart',[]),
+      ...mapGetters('m_cart',['total'])
+    },
+    watch:{
+      // total(newVal){
+      //   const findResule = this.options.find(x => x.text === '购物车')
+      //   if(findResule){
+      //     // 改变购物车的值
+      //     findResule.info = newVal
+      //   }
+      // }
+      total:{
+        handler(newVal){
+          const findResule = this.options.find(x => x.text === '购物车')
+          if(findResule){
+            // 改变购物车的值
+            findResule.info = newVal
+          }
+        },
+        // 首次加载立即被调用
+        immediate:true
+      }
+      
+    },
 		data() {
 			return {
+        goods_info:{},
         options: [{
         			icon: 'shop',
         			text: '店铺',
@@ -58,7 +86,7 @@
         	      color: '#fff'
         	    }
         	    ],
-				goods_info:{}
+
 			};
 		},
     onLoad(options) {
@@ -66,6 +94,7 @@
       this.getGoodsDetail(goods_id)
     },
     methods:{
+      ...mapMutations('m_cart',['addToCart']),
       async getGoodsDetail(goods_id){
         const {data:res} = await uni.$http.get('/api/public/v1/goods/detail',{goods_id})
         // console.log(res)
@@ -87,8 +116,25 @@
             url:'/pages/cart/cart'
           })
         }
+      },
+      buttonClick(e){
+        // console.log(e)
+        if(e.content.text === '加入购物车'){
+            // 组织商品信息对象
+            // {goods_id,goods_name,goods_price,goods_count,goods_small_logo,goods_state}
+            const goods = {
+              goods_id:this.goods_info.goods_id,
+              goods_name:this.goods_info.goods_name,
+              goods_price:this.goods_info.goods_price,
+              goods_count: 1,
+              goods_small_logo:this.goods_info.goods_small_logo,
+              goods_state:true
+            }
+            // 通过 this 调用映射过来的 addToCart 方法，把商品信息对象存储到购物车中
+            this.addToCart(goods)
+        }        
+        
       }
-      
     }
 	}
 </script>
