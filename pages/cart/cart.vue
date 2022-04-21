@@ -56,7 +56,7 @@ import {mapState,mapMutations} from 'vuex'
         this.updateGoodsCount(e)
       },
       swipeItemClickHandler(goods){
-        console.log(goods)
+        // console.log(goods)
         this.removeGoodsById(goods.goods_id)
       }
       

@@ -45,7 +45,7 @@
         "appid" : "wx0f3db2fc2c622482",
         "setting" : {
             "urlCheck" : true,
-            "checkSiteMap":false
+            "checkSiteMap" : false
         }
     }
 }

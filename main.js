@@ -6,14 +6,26 @@ import store from './store/store.js'
 import { $http } from '@escook/request-miniprogram'
 uni.$http = $http
 // $http.baseurl = 'https://www.uinav.com'
-// $http.baseUrl = 'https://www.uinav.com'
-$http.baseUrl = 'https://api-hmugo-web.itheima.net'
+$http.baseUrl = 'https://www.uinav.com'
+
+// $http.baseUrl = 'https://api-hmugo-web.itheima.net'
 
 // 请求拦截器
 $http.beforeRequest = function(options){
   uni.showLoading({
     title:'数据加载中...'
   })
+  // console.log(options)
+    // 判断请求的是否为有权限的 API 接口
+    if (options.url.indexOf('/my/') !== -1) {
+      // console.log('Authorization' + store.state.m_user.token)
+      // 为请求头添加身份认证字段
+      options.header = {
+        // 字段的值可以直接从 vuex 中进行获取
+        Authorization: store.state.m_user.token,
+      }
+      console.log(store.state.m_user.token)
+    }
 }
 
 //封装弹框失败

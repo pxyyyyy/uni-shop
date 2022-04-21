@@ -51,13 +51,14 @@
           rawData: info.rawData,
           signature: info.signature
         }
-        console.log(query)
+        // console.log(query)
             
         const loginResult = await uni.$http.post('/api/public/v1/users/wxlogin',query)
         console.log(loginResult)
         if(loginResult.statusCode !== 200) return uni.$showMsg('登录失败')
         // return uni.$showMsg('登录成功')
-        this.updateToken(info) 
+        this.updateToken(query.code) 
+        console.log('denglu' + query.code)
       },
     },
     

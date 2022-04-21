@@ -49,7 +49,7 @@
         // this.goodsList = res.message.goods
         // 为数据赋值：通过展开运算符的形式，进行新旧数据的拼接
         this.goodsList = [...this.goodsList,...res.message.goods]
-        console.log(this.goodsList)
+        // console.log(this.goodsList)
         this.total = res.message.total
       },
       gotoDetail(goods){
